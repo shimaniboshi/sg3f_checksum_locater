@@ -214,7 +214,8 @@ def successive_crc16_calc_loop(shm, candidates_queue, results_queue, strip_by_en
                     continue
 
                 if strip_by_last4bytes:
-                    if struct.unpack('<I' ,attached_shm.buf[(end_point - 4):end_point])[0] == 0:
+                    last_signed_int = struct.unpack('<i', attached_shm.buf[(end_point - 4):end_point])[0]
+                    if last_signed_int == 0 or last_signed_int == -1:
                         if is_verbose:
                             print('Range: 0x{0:08x} - 0x{1:08x} / Stripped by last 4 bytes'.format(start_point, end_point))
                         continue
@@ -324,7 +325,7 @@ def main():
     parser.add_argument('--strip_by_size', type=int, default=4, help='Exclude the result if its range is smaller than specified value') 
     parser.add_argument('--strip_by_entropy', type=float, help='Exclude the result if the calculated entropy of its range is smaller than sepcified value') 
     parser.add_argument('--strip_by_last2bytes', action='store_true', help='Exclude the result if the last 2 bytes of its range are NOT ZERO') 
-    parser.add_argument('--strip_by_last4bytes', action='store_true', help='Exclude the result if the last 4 bytes of its range are ZERO') 
+    parser.add_argument('--strip_by_last4bytes', action='store_true', help='Exclude the result if the last 4 bytes of its range are ZERO or FF') 
     parser.add_argument('--verbose', action='store_true', help='Display the all the results') 
     parser.add_argument('FILENAME',  help='target file')
     cmdline_args = parser.parse_args()
@@ -371,7 +372,7 @@ def main():
         print('Ranges whose last 2 bytes were NOT ZERO were excluded.')
 
     if cmdline_args.strip_by_last4bytes:
-        print('Ranges whose last 4 bytes were ZERO were excluded.')
+        print('Ranges whose last 4 bytes were ZERO or FF were excluded.')
 
     print('Ranges which are smaller than {0:0d} was excluded'.format(cmdline_args.strip_by_size))
     
