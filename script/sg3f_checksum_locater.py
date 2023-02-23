@@ -317,7 +317,7 @@ def zero_checksum_locate(data, range_generator, is_bruteforce, concurrency, stri
 
 def main():
 
-    parser = argparse.ArgumentParser(description='Calculate checksums while increasing the start point of the range and locate zero checksum range.')
+    parser = argparse.ArgumentParser(description='Calculate checksums while increasing the end point of the range and locate zero checksum range.')
     parser.add_argument('--start', metavar='0xXXXX', nargs='?', help='Sepcify the start point of the range')
     parser.add_argument('--end', metavar='0xYYYY', nargs='?', help='Specify the end point of the range')
     parser.add_argument('--bruteforce', action='store_true', help='Increase the start point of the range while changing the end point. Without this option, start point will not be changed.') 
