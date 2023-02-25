@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # coding: utf-8
 
 
@@ -247,7 +248,6 @@ def successive_crc16_calc_loop(shm, candidates_queue, results_queue, strip_by_en
                 results_queue.put(cs_result)        
                 #print('candidates_queue size: {0:0d}'.format(candidates_queue.qsize()))        
 
-        # This is for 'try' section. 
         finally:
             attached_shm.close()           
             candidates_queue.task_done()
